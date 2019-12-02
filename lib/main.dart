@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_app/widgets/adaptive_app_bar.dart';
 import 'package:expense_app/widgets/chart.dart';
 import 'package:expense_app/widgets/new_transaction.dart';
 import 'package:expense_app/widgets/transaction_list.dart';
@@ -113,28 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     final isIOS = Platform.isIOS;
-    final PreferredSizeWidget appBar = isIOS
-        ? CupertinoNavigationBar(
-            middle: Text('Personal Expenses'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () => _startAddNewTransaction(context),
-                  child: Icon(CupertinoIcons.add),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text('Personal Expenses'),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(context),
-              )
-            ],
-          );
+    final appBar = AdaptiveAppBar(
+      isIOS: isIOS,
+      startNewTransaction: _startAddNewTransaction,
+    );
 
     final txListWidget = Container(
       height: (MediaQuery.of(context).size.height -
